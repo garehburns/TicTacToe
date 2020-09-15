@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TicTacToeView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">cs310-tic-tac-toe</a> &gt; <a href="index.source.html" class="el_package">edu.jsu.mcis</a> &gt; <span class="el_source">TicTacToeView.java</span></div><h1>TicTacToeView.java</h1><pre class="source lang-java linenums">package edu.jsu.mcis;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class TicTacToeView extends JPanel implements ActionListener {
+    
+    TicTacToeModel model;
+
+    private JButton[][] squares;
+    private JPanel squaresPanel;
+    private JLabel resultLabel;
+
+<span class="nc" id="L15">    public TicTacToeView(TicTacToeModel model) {</span>
+
+<span class="nc" id="L17">        this.model = model;</span>
+
+<span class="nc" id="L19">        int width = model.getWidth();</span>
+
+<span class="nc" id="L21">        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));</span>
+<span class="nc" id="L22">        squares = new JButton[width][width];</span>
+<span class="nc" id="L23">        squaresPanel = new JPanel(new GridLayout(width,width));  /* BUTTON LAYOUT */</span>
+<span class="nc" id="L24">        resultLabel = new JLabel();</span>
+<span class="nc" id="L25">        resultLabel.setName(&quot;ResultLabel&quot;);</span>
+        
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        for (int row = 0; row &lt; width; row++){</span>
+            
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            for (int col = 0; col &lt; width; col++){</span>
+                
+<span class="nc" id="L31">                squares[row][col] = new JButton(); </span>
+<span class="nc" id="L32">                squares[row][col].addActionListener(this);</span>
+<span class="nc" id="L33">                squares[row][col].setName(&quot;Square&quot; + row + col);</span>
+<span class="nc" id="L34">                squares[row][col].setPreferredSize(new Dimension(64,64));</span>
+<span class="nc" id="L35">                squaresPanel.add(squares[row][col]);</span>
+                
+            }
+            
+        }
+
+<span class="nc" id="L41">        this.add(squaresPanel);</span>
+<span class="nc" id="L42">        this.add(resultLabel);</span>
+        
+<span class="nc" id="L44">        resultLabel.setText(&quot;Welcome to Tic-Tac-Toe!&quot;);</span>
+
+<span class="nc" id="L46">    }</span>
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        
+        /* Handle button clicks.  Extract the row and col values from the name
+           of the button that was clicked, then make the mark in the grid using
+           the Model's &quot;makeMark()&quot; method.  Finally, use the &quot;updateSquares()&quot;
+           method to refresh the View.  If the game is over, show the result
+           (from the Model's &quot;getResult()&quot; method) in the result label. */
+        
+<span class="nc" id="L57">        String name = ((JButton) event.getSource()).getName(); // Get button name</span>
+        
+        // INSERT YOUR CODE HERE
+		
+		int row;
+		int col;
+		char x;
+		char y;
+<span class="nc" id="L65">		char[] ch = name.toCharArray();</span>
+		
+<span class="nc" id="L67">		x = ch[6];</span>
+<span class="nc" id="L68">		y = ch[7];</span>
+		
+<span class="nc" id="L70">		row = Character.getNumericValue(x);</span>
+<span class="nc" id="L71">		col = Character.getNumericValue(y);</span>
+		
+<span class="nc" id="L73">		model.makeMark(row, col);</span>
+<span class="nc" id="L74">		updateSquares();</span>
+		
+<span class="nc bnc" id="L76" title="All 2 branches missed.">		if (model.getResult() != TicTacToeModel.Result.NONE) {</span>
+<span class="nc" id="L77">			resultLabel.setText(model.getResult().toString().toUpperCase());</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">			for (int i = 0; i &lt; model.getWidth(); ++i) {</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">				for (int j = 0; j &lt; model.getWidth(); ++j) {</span>
+<span class="nc" id="L80">					squares[i][j].setEnabled(false);</span>
+				}
+			}
+		}
+<span class="nc" id="L84">    }</span>
+        
+    public void updateSquares() {
+
+        /* Loop through all View buttons and (re)set the text of each button
+           to reflect the grid contents (use the Model's &quot;getMark()&quot; method). */
+		
+		// INSERT YOUR CODE HERE
+<span class="nc" id="L92">		int width= model.getWidth();</span>
+		
+<span class="nc bnc" id="L94" title="All 2 branches missed.">		for (int row = 0; row &lt; width; ++row) {</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">			for (int col = 0; col &lt; width; ++col) {</span>
+<span class="nc" id="L96">				String contents = model.getMark(row, col).toString();</span>
+<span class="nc" id="L97">				squares[row][col].setText(contents);</span>
+			}
+		}
+<span class="nc" id="L100">	}</span>
+    
+        
+    public void showResult(String message) {
+<span class="nc" id="L104">        resultLabel.setText(message);  /* DISPLAY WINNER */</span>
+
+<span class="nc" id="L106">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
